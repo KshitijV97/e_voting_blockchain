@@ -15,3 +15,19 @@ def update_state(transaction, state):
         state[key] += transaction[key]
 
     return state
+
+def check_transaction(transaction, state):
+    if sum(transaction.values()) is not 0:
+        return False
+
+    for key in transaction.keys():
+        if key in state.keys():
+            account_balance = state[key]
+        else:
+            account_balance = 0
+
+        if account_balance + transaction[key] < 0:
+            return False
+
+    return True
+
