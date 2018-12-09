@@ -31,3 +31,24 @@ def check_transaction(transaction, state):
 
     return True
 
+def make_block(transactions, chain):
+    parent_hash = chain[-1]['hash']
+    block_number = chain[-1]['contents']['block_number'] + 1
+
+    block_contents = {
+        'block_number': block_number,
+        'parent_hash': parent_hash,
+        'transaction_count': block_number + 1,
+        'transaction': transactions
+    }
+
+    return {'hash': hash_me(block_contents), 'contents': block_contents}
+
+def check_block_hash(block):
+    expected_hash = hash_me(block['contents'])
+
+    if block['hash'] is not expected_hash:
+        raise
+
+    return
+
