@@ -97,3 +97,16 @@ def check_chain(chain):
 
     return state
 
+def add_vote(transaction, state, chain):
+    if check_transaction(transaction, state):
+        state = update_state(transaction, state)
+    else:
+        raise Exception('Invalid transaction.')
+
+    my_block = make_block(state, chain)
+    chain.append(my_block)
+
+    for transaction in chain:
+        check_chain(transaction)
+
+    return state, chain
