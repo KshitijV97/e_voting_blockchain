@@ -7,3 +7,11 @@ def hash_me(k):
         k = json.dumps(k, sort_keys=True)
         k = k.encode()
     return hashlib.sha256(k).hexdigest()
+
+def update_state(transaction, state):
+    state = state.copy()
+
+    for key in transaction:
+        state[key] += transaction[key]
+
+    return state
