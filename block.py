@@ -110,3 +110,39 @@ def add_vote(transaction, state, chain):
         check_chain(transaction)
 
     return state, chain
+
+genesis_block = {
+    'hash': hash_me({
+        'block_number': 0,
+        'parent_hash': None,
+        'transaction_count': 1,
+        'transaction': [{'unvoted': 5, 'Rohit': 0, 'Ramesh': 0}]
+    }),
+    'contents': {
+        'block_number': 0,
+        'parent_hash': None,
+        'transaction_count': 1,
+        'transaction': [{'unvoted': 5, 'Rohit': 0, 'Ramesh': 0}]
+    },
+}
+
+block_chain = [genesis_block]
+chain_state = {'unvoted': 5, 'Rohit': 0, 'Ramesh': 0}
+
+while True:
+	if chain_state['unvoted'] == 0:
+		print('The voting has finished')
+		c = {x:y for x, y in chain_state.items() if x != 'unvoted'}
+		print('The winner is:')
+		c = max(c, key=c.get)
+		print(c)			
+		exit()
+	vote_for = input("Whom do you vote for: ")
+	if (vote_for == 'rohit'):
+		transaction = {'unvoted': -1, 'Rohit': 1}
+	else:
+		transaction = {'unvoted': -1, 'Ramesh': 1}
+
+	chain_state, block_chain = add_vote(transaction=transaction, state=chain_state, chain=block_chain)
+	print(block_chain)
+	print(chain_state)
